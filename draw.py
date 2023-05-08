@@ -14,6 +14,18 @@ def getEdge(G,G_part):
         list_edge.append(edge)
     return list_edge
 
+def plotPartition(G,true_parttion):
+    pos = nx.spring_layout(G, k=0.1, iterations=50, scale=1.3)
+    colors = ["violet","orange","cyan","red","blue","green","yellow","indigo","pink"]
+    for i,com in enumerate(true_parttion):
+        nodes = list(com)
+        nx.draw_networkx_nodes(G,pos,nodelist=nodes,node_size=500, node_color=colors[i % len(colors)])
+    nx.draw_networkx_edges(G,pos,edgelist=G.edges(data=True), width=2,alpha=1,edge_color='k')
+    nx.draw_networkx_labels(G,pos,font_size=12,font_family='sans-serif')
+
+    plt.axis('off')
+    plt.savefig('img.png')
+
 def plot_graph(G, G_part):
     removed_edges = getEdge(G, G_part)
     exist_edges = G_part.edges(data=True)

@@ -1,4 +1,4 @@
-from test import *
+from util import *
 import networkx as nx
 from betweeness import *
 from draw import *
@@ -29,7 +29,7 @@ def animation_data(A, P_history, Q_history):
         frames.append({"C" : _P, "Q" : Q})
     return frames
         
-adj_matrix = get_data(10)
+adj_matrix = get_data(20)
 
 def girvan_newan(adj_matrix, n = None):
     M = modularity_matrix(adj_matrix)
@@ -45,9 +45,9 @@ def girvan_newan(adj_matrix, n = None):
     while True:
         last_P = P_history[-1]
         if not n and len(last_P) == num_nodes:
-            return best_G,best_P, animation_data(adj_matrix, P_history, Q_history)
+            return best_G,best_P,animation_data(adj_matrix, P_history, Q_history)
         elif n and len(last_P) == n:
-            return best_G,last_P, animation_data(adj_matrix, P_history, Q_history)
+            return best_G,last_P,animation_data(adj_matrix, P_history, Q_history)
         G = prune_edges(G)
         P = list(nx.connected_components(G))
         # print(P)
