@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import seaborn as sns
 import numpy as np
 from operator import mul
 from functools import *
@@ -16,10 +17,9 @@ def getEdge(G,G_part):
 
 def plotPartition(G,true_parttion):
     pos = nx.spring_layout(G, k=0.1, iterations=50, scale=1.3)
-    colors = ["violet","orange","cyan","red","blue","green","yellow","indigo","pink"]
-    for i,com in enumerate(true_parttion):
-        nodes = list(com)
-        nx.draw_networkx_nodes(G,pos,nodelist=nodes,node_size=500, node_color=colors[i % len(colors)])
+    colors = dict(zip(true_parttion.keys(), sns.color_palette('hls', len(true_parttion.keys()))))
+    for com in true_parttion.keys():
+        nx.draw_networkx_nodes(G,pos,nodelist=true_parttion[com],node_size=500, node_color=colors[com])
     nx.draw_networkx_edges(G,pos,edgelist=G.edges(data=True), width=2,alpha=1,edge_color='k')
     nx.draw_networkx_labels(G,pos,font_size=12,font_family='sans-serif')
 
