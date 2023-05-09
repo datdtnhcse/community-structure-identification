@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
+import networkx as nx
 from typing import Callable
 from itertools import product, combinations
+from collections import deque
 
 np.random.seed(4)
 
@@ -59,22 +61,80 @@ def modularity(mod_matrix : np.ndarray, communities : list):
     # print(C)
     return np.tril(np.multiply(mod_matrix, C), 0).sum()
         
-def getAdjMatrix(filename):
-    #index - 1
-    #[0,1,0]
-    #[1,0,0]
-    #[0,0,0]
-    pass #-> np.array
+def getAdjMatrix(input_file):
+    with open(input_file, 'r') as f:
+        lines = f.readlines()
+
+    # Determine the number of nodes from the maximum node ID
+    max_node_id = max([int(line.strip().split()[1]) for line in lines])
+    num_nodes = max_node_id
+
+    # Initialize adjacency matrix
+    adj_matrix = np.zeros((num_nodes, num_nodes))
+
+    # Iterate over edges and update adjacency matrix
+    for line in lines:
+        a, b = map(int, line.strip().split())
+        adj_matrix[a-1][b-1] = 1
+        adj_matrix[b-1][a-1] = 1
+
+    return adj_matrix
+
+G = nx.karate_club_graph()
     
 def getComponent(G):
-    pass
+    # Get list of edges
+    edges = list(G.edges())
+
+    # Initialize visited set and components list
+    visited = set()
+    components = []
+
+    # Iterate over edges and perform BFS
+    for u, v in edges:
+        if u not in visited:
+            # Start a new component
+            component = []
+            queue = deque([u])
+            visited.add(u)
+            while queue:
+                node = queue.popleft()
+                component.append(node)
+                for neighbor in G.neighbors(node):
+                    if neighbor not in visited and (node, neighbor) in edges:
+                        queue.append(neighbor)
+                        visited.add(neighbor)
+            components.append(component)
+
+    return components
     
-def getComponetAdjMatrix(adjMatrix):
-    pass    
-    
+def getComponentAdjMatrix(adjMatrix):
+    # Initialize visited set and components list
+    visited = set()
+    components = []
+
+    # Iterate over nodes and perform BFS
+    for node in range(adjMatrix.shape[0]):
+        if node not in visited:
+            # Start a new component
+            component = []
+            queue = deque([node])
+            visited.add(node)
+            while queue:
+                node = queue.popleft()
+                component.append(node)
+                neighbors = np.nonzero(adjMatrix[node])[0]
+                for neighbor in neighbors:
+                    if neighbor not in visited and adjMatrix[node][neighbor] == 1:
+                        queue.append(neighbor)
+                        visited.add(neighbor)
+            components.append(component)
+
+    return components
+  
 if __name__ == "__main__":
     data = get_data(4)
-    print(data)
+    # print(data)
     # print(modularity_matrix(data))
     # print(betweennes_matrix(data))
     # lap_matrix = laplacian_matrix(data)
@@ -82,3 +142,10 @@ if __name__ == "__main__":
 
     # eigenvalues, eigenvectors = np.linalg.eig(lap_matrix)
     # print(eigenvalues)
+
+
+
+adj_matrix = getAdjMatrix("input.txt")
+print(adj_matrix)
+print(getComponent(G))
+print(getComponentAdjMatrix(adj_matrix))
