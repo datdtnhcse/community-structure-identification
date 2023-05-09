@@ -100,7 +100,7 @@ def run_second_phase(node_to_comm, adj_matrix, true_partition, true_comms):
     
     return np.array(new_adj_matrix), new_true_partition, true_comms
         
-adj_matrix = get_data(20)
+adj_matrix = get_data(200)
         
 def louvain_algorithm(adj_matrix, n = None):
     optimal_adj_matrix = adj_matrix

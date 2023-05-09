@@ -10,7 +10,7 @@ from draw import *
 import copy
 
 def prune_edges(G):
-    init_num_comps = nx.number_connected_components(G)
+    init_num_comps = nx.number_connected_components(G) 
     curr_num_comps = init_num_comps
     
     while curr_num_comps <= init_num_comps:
@@ -35,6 +35,7 @@ def animation_data(A, P_history, Q_history):
     return frames
         
 adj_matrix = get_data(20)
+#adj_matrx = load_data('input.txt')
 
 def girvan_newan(adj_matrix, n = None):
     M = modularity_matrix(adj_matrix)
@@ -42,7 +43,7 @@ def girvan_newan(adj_matrix, n = None):
     num_nodes = G.number_of_nodes()
     G.remove_edges_from(nx.selfloop_edges(G))
     
-    best_P = list(nx.connected_components(G)) # Partition
+    best_P = list(nx.connected_components(G)) # Partition #[{0,1,2},], util->function
     best_Q = modularity(M, best_P)
     best_G = G
     P_history = [best_P]

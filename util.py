@@ -59,6 +59,19 @@ def modularity(mod_matrix : np.ndarray, communities : list):
     # print(C)
     return np.tril(np.multiply(mod_matrix, C), 0).sum()
         
+def getAdjMatrix(filename):
+    #index - 1
+    #[0,1,0]
+    #[1,0,0]
+    #[0,0,0]
+    pass #-> np.array
+    
+def getComponent(G):
+    pass
+    
+def getComponetAdjMatrix(adjMatrix):
+    pass    
+    
 if __name__ == "__main__":
     data = get_data(4)
     print(data)
