@@ -16,11 +16,9 @@ def prune_edges(G):
     while curr_num_comps <= init_num_comps:
         bw_centralities = my_betweenness_calculation(G, True)
         max_bw_edge = get_max_betweenness_edges(bw_centralities)
-        
         for edge in max_bw_edge:
             G.remove_edge(*edge)
         curr_num_comps = nx.number_connected_components(G)
-        
     return G
         
 def animation_data(A, P_history, Q_history):
@@ -34,16 +32,16 @@ def animation_data(A, P_history, Q_history):
         frames.append({"C" : _P, "Q" : Q})
     return frames
         
-adj_matrix = get_data(20)
-#adj_matrx = load_data('input.txt')
+# adj_matrix = get_data(20)
+adj_matrix = getAdjMatrix('input.txt')
 
 def girvan_newan(adj_matrix, n = None):
     M = modularity_matrix(adj_matrix)
     G = nx.from_numpy_array(adj_matrix)
     num_nodes = G.number_of_nodes()
     G.remove_edges_from(nx.selfloop_edges(G))
-    
-    best_P = getComponent(G) # Partition #[{0,1,2},], util->function
+    # best_P = list(nx.connected_components(G))
+    best_P = getComponent(G)# Partition #[{0,1,2},], util->function
     best_Q = modularity(M, best_P)
     best_G = G
     P_history = [best_P]
@@ -55,6 +53,7 @@ def girvan_newan(adj_matrix, n = None):
         elif n and len(last_P) == n:
             return best_G,last_P,animation_data(adj_matrix, P_history, Q_history)
         G = prune_edges(G)
+        # P = list(nx.connected_components(G))
         P = getComponent(G)
         # print(P)
         Q = modularity(M,P)

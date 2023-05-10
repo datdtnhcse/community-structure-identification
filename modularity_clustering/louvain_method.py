@@ -160,6 +160,6 @@ def louvain_algorithm(adj_matrix, n = None):
     return true_partition, ani_frames
 true_partition, frame = louvain_algorithm(adj_matrix)
 G = nx.from_numpy_array(adj_matrix)
-print(true_partition)
 true_partition = {i : list(ele) for i,ele in enumerate(true_partition)}
+print(true_partition)
 plotPartition(G,true_partition)

@@ -99,14 +99,14 @@ def my_betweenness_calculation( G, normalized=False):
     """
     graph_nodes = G.nodes()
     edge_contributions = {}
-    components = getComponent(G)   # connected components for current graph
-
+    # components = list(nx.connected_components(G)) # connected components for current graph
+    components = getComponent(G)
     # calculate for each node
     for node in graph_nodes:
         component = None    # the community current node belongs to
         for com in components: 
-            if node in list(com):
-                component = list(com)
+            if node in com:
+                component = com
         nodes_nsp = {}  # number of shorest paths
         node_levels, predecessors, successors = build_level(G, node)   # build levels for calculation
 
