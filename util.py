@@ -89,16 +89,12 @@ G = nx.karate_club_graph()
     
 def getComponent(G):
     # Get list of edges
-    edges = list(G.edges())
 
     # Initialize visited set and components list
     visited = set()
     components = []
-
-    # Iterate over edges and perform BFS
-    for u, v in edges:
+    for u in range(G.number_of_nodes()):
         if u not in visited:
-            # Start a new component
             component = []
             queue = deque([u])
             visited.add(u)
@@ -106,10 +102,25 @@ def getComponent(G):
                 node = queue.popleft()
                 component.append(node)
                 for neighbor in G.neighbors(node):
-                    if neighbor not in visited and (node, neighbor) in edges:
+                    if neighbor not in visited:
                         queue.append(neighbor)
                         visited.add(neighbor)
             components.append(component)
+    # Iterate over edges and perform BFS
+    # for u, v in edges:
+    #     if u not in visited:
+    #         # Start a new component
+    #         component = []
+    #         queue = deque([u])
+    #         visited.add(u)
+    #         while queue:
+    #             node = queue.popleft()
+    #             component.append(node)
+    #             for neighbor in G.neighbors(node):
+    #                 if neighbor not in visited and (node, neighbor) in edges:
+    #                     queue.append(neighbor)
+    #                     visited.add(neighbor)
+    #         components.append(component)
 
     return components
     
@@ -150,7 +161,7 @@ if __name__ == "__main__":
 
 
 
-adj_matrix = getAdjMatrix("input.txt")
-print(adj_matrix)
-print(getComponent(G))
-print(getComponentAdjMatrix(adj_matrix))
+# adj_matrix = getAdjMatrix("input.txt")
+# print(adj_matrix)
+# print(getComponent(G))
+# print(getComponentAdjMatrix(adj_matrix))
