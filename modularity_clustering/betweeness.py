@@ -1,4 +1,10 @@
 import networkx as nx
+import os
+import sys
+parent_dir = os.path.abspath(os.path.join(os.getcwd(), '..'))
+sys.path.append(parent_dir)
+
+from util import *
 
 def get_max_betweenness_edges(betweenness):
     max_betweenness_edges = []
@@ -93,7 +99,7 @@ def my_betweenness_calculation( G, normalized=False):
     """
     graph_nodes = G.nodes()
     edge_contributions = {}
-    components = list(nx.connected_components(G))   # connected components for current graph
+    components = getComponent(G)   # connected components for current graph
 
     # calculate for each node
     for node in graph_nodes:

@@ -43,7 +43,7 @@ def girvan_newan(adj_matrix, n = None):
     num_nodes = G.number_of_nodes()
     G.remove_edges_from(nx.selfloop_edges(G))
     
-    best_P = list(nx.connected_components(G)) # Partition #[{0,1,2},], util->function
+    best_P = getComponent(G) # Partition #[{0,1,2},], util->function
     best_Q = modularity(M, best_P)
     best_G = G
     P_history = [best_P]
@@ -55,7 +55,7 @@ def girvan_newan(adj_matrix, n = None):
         elif n and len(last_P) == n:
             return best_G,last_P,animation_data(adj_matrix, P_history, Q_history)
         G = prune_edges(G)
-        P = list(nx.connected_components(G))
+        P = getComponent(G)
         # print(P)
         Q = modularity(M,P)
         if Q >= best_Q:
