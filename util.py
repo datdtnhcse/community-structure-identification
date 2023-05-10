@@ -60,7 +60,7 @@ def modularity(mod_matrix : np.ndarray, communities : list):
             C[j, i] = 1.0
     # print(C)
     return np.tril(np.multiply(mod_matrix, C), 0).sum()
-        
+
 def getAdjMatrix(input_file):
     with open(input_file, 'r') as f:
         lines = f.readlines()
@@ -75,10 +75,15 @@ def getAdjMatrix(input_file):
     # Iterate over edges and update adjacency matrix
     for line in lines:
         a, b = map(int, line.strip().split())
+        # Resize adjacency matrix if necessary
+        if max(a, b) > num_nodes:
+            adj_matrix = np.pad(adj_matrix, ((0, max(a, b)-num_nodes), (0, max(a, b)-num_nodes)), mode='constant')
+            num_nodes = max(a, b)
         adj_matrix[a-1][b-1] = 1
         adj_matrix[b-1][a-1] = 1
 
     return adj_matrix
+
 
 G = nx.karate_club_graph()
     
