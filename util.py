@@ -61,7 +61,7 @@ def modularity(mod_matrix : np.ndarray, communities : list):
     # print(C)
     return np.tril(np.multiply(mod_matrix, C), 0).sum()
 
-def getAdjMatrix(input_file):
+def getAdjMatrix(input_file, m = 10000):
     with open(input_file, 'r') as f:
         lines = f.readlines()
 
@@ -69,12 +69,28 @@ def getAdjMatrix(input_file):
     max_node_id = max([int(line.strip().split()[1]) for line in lines])
     num_nodes = max_node_id
 
+    
+    if m < max_node_id:
+        num_nodes = m
+
+
     # Initialize adjacency matrix
     adj_matrix = np.zeros((num_nodes, num_nodes))
+    # print(adj_matrix.shape)
 
+
+    count = 0
     # Iterate over edges and update adjacency matrix
     for line in lines:
+        if count >= m:
+            break
+        else: 
+            count += 1
         a, b = map(int, line.strip().split())
+        if a > m or b > m:
+            count -=1
+            continue
+        # print(a,b)
         # Resize adjacency matrix if necessary
         if max(a, b) > num_nodes:
             adj_matrix = np.pad(adj_matrix, ((0, max(a, b)-num_nodes), (0, max(a, b)-num_nodes)), mode='constant')
@@ -124,13 +140,15 @@ def getComponent(G):
 
     return components
     
-def getComponentAdjMatrix(adjMatrix):
+def getComponentAdjMatrix(adjMatrix, max = 0):
     # Initialize visited set and components list
     visited = set()
     components = []
+    if max == 0 or max > adjMatrix.shape[0]:
+        max = adjMatrix.shape[0]
 
     # Iterate over nodes and perform BFS
-    for node in range(adjMatrix.shape[0]):
+    for node in range(max):
         if node not in visited:
             # Start a new component
             component = []
@@ -161,7 +179,8 @@ if __name__ == "__main__":
 
 
 
-# adj_matrix = getAdjMatrix("input.txt")
+# adj_matrix = getAdjMatrix("dataset/edge.txt",40)
 # print(adj_matrix)
-# print(getComponent(G))
-# print(getComponentAdjMatrix(adj_matrix))
+# print(adj_matrix.shape)
+# # print(getComponent(G))
+# print(getComponentAdjMatrix(adj_matrix,400))

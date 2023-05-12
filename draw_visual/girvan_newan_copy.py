@@ -49,7 +49,7 @@ def animation_data(A, P_history, Q_history):
 
 # Get the adjacency matrix (either from a file or a custom function)
 # adj_matrix = get_data(20)
-adj_matrix = getAdjMatrix('input.txt')
+adj_matrix = getAdjMatrix('dataset/edge.txt')
 
 # Girvan-Newman algorithm
 def girvan_newan(adj_matrix, n = None):
@@ -109,3 +109,23 @@ plot_graph(G, G_part)
 
 # Print the best partition
 print("best_P: ", component)
+
+import csv
+
+data = component
+
+# Define the output file name
+filename = "result_girvan.csv"
+
+# Open the output file in write mode
+with open(filename, mode='w', newline='') as file:
+    # Create a writer object
+    writer = csv.writer(file)
+
+    # Write the header row
+    writer.writerow(['id', 'group'])
+
+    # Write the data rows
+    for group_index, group in enumerate(data):
+        for id in group:
+            writer.writerow([id, group_index])

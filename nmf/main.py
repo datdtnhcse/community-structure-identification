@@ -34,6 +34,7 @@ def algoNMF(adjency_matrix, num_cluster, num_iter,algo = 'anls_as'):
     print(W)
     return getCluster(W)
     
+# adj_matrix = getAdjMatrix("dataset/edge.txt",500)
 adj_matrix = get_data(10)
 G = nx.from_numpy_array(adj_matrix)
 true_partition = algoNMF(adj_matrix,4,32,'sgd')
