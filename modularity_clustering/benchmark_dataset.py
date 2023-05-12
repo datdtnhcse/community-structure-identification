@@ -17,11 +17,14 @@ import nmf.main as nmf_util
 from sklearn.decomposition import NMF
 import matplotlib.pyplot as plt
 
+#if use example data to get insight in result use
+adj_matrix = get_data(100)
+
 #benchmark for network-eletric
-adj_matrix = getAdjMatrix('input.txt')
+# adj_matrix = getAdjMatrix('input.txt')
 
 #uncomment to run input if use multigraph
-adj_matrix = generate_adjacency_matrix_from_multigraph("multigraph.txt")
+# adj_matrix = generate_adjacency_matrix_from_multigraph("multigraph.txt")
 
 def convert_to_dictLabel(dict_test_util):
     dict_res = {}
@@ -66,9 +69,11 @@ def method_to_measure(adj_matrix,method = 'louvain',n_component = None,name = No
         print(num_com)
     else: num_com = n_component
     if method == 'louvain':
+        print('method: louvain')
         communities = louvain_communities(G, seed = 123)
         true_partition, frame = louvain_algorithm(adj_matrix)
     if method == 'girvan_newan':
+        print('method: girvan_newan')
         communities = nx.algorithms.community.girvan_newman(G)
         lst_communities = []
         for partition in next(communities):
@@ -76,11 +81,13 @@ def method_to_measure(adj_matrix,method = 'louvain',n_component = None,name = No
         communities = lst_communities
         G_part, true_partition, _ = girvan_newan(adj_matrix, len(communities))    
     if method == 'nmf_sgd':
+        print('method: nmf_sgd')
         true_partition = nmf_util.algoNMF(adj_matrix,num_com,10000,'sgd')
         skNMF = NMF(n_components=num_com, init='random', random_state=28, max_iter=10000, alpha=0.01)
         W1 = skNMF.fit_transform(adj_matrix)
         communities = nmf_util.getCluster(W1)
     if method == 'nmf_mu':
+        print('method: nmf_mu')
         true_partition = nmf_util.algoNMF(adj_matrix,num_com,10000,'mu')
         nmf = NMF(n_components=num_com, init='random', random_state=0, solver='mu',max_iter=10000)
         W1 = nmf.fit_transform(adj_matrix)  # Ma trận W
