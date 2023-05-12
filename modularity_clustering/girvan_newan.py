@@ -98,14 +98,17 @@ def girvan_newan(adj_matrix, n = None):
         P_history.append(P)
         Q_history.append(Q)
 
-# Apply the Girvan-Newman algorithm to the adjacency matrix
-# G_part, component, _ = girvan_newan(adj_matrix)
-
-# # Create a graph from the adjacency matrix
-# G = nx.from_numpy_array(adj_matrix)
-
-# # Plot the graph with community partitions
-# plot_graph(G, G_part)
-
-# # Print the best partition
-# print("best_P: ", component)
+if __name__ == "__main__":
+    # Apply the Girvan-Newman algorithm to the adjacency matrix
+    # adj_matrix = get_data(20)
+    adj_matrix = getAdjMatrix('input.txt')
+    G_part, component, _ = girvan_newan(adj_matrix)
+    
+    # Create a graph from the adjacency matrix
+    G = nx.from_numpy_array(adj_matrix)
+    
+    # Plot the graph with community partitions
+    plot_graph(G, G_part)
+    
+    # Print the best partition
+    print("best_P: ", component)
