@@ -119,8 +119,8 @@ def method_to_measure(adj_matrix,method = 'louvain',n_component = None,name = No
     
 res = pd.DataFrame({})
 res = pd.concat([res,method_to_measure(adj_matrix,'louvain')])
-res = pd.concat([res,method_to_measure(adj_matrix,'girvan_newan')])
 res = pd.concat([res,method_to_measure(adj_matrix,'nmf_sgd')])
 res = pd.concat([res,method_to_measure(adj_matrix,'nmf_mu')])
+res = pd.concat([res,method_to_measure(adj_matrix,'girvan_newan')])
 # res = pd.concat([res,method_to_measure(adj_matrix,'nmf_als',8)])
 print(res)
