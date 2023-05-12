@@ -49,7 +49,7 @@ def animation_data(A, P_history, Q_history):
 
 # Get the adjacency matrix (either from a file or a custom function)
 # adj_matrix = get_data(20)
-adj_matrix = getAdjMatrix('input.txt')
+# adj_matrix = getAdjMatrix('input.txt')
 
 # Girvan-Newman algorithm
 def girvan_newan(adj_matrix, n = None):
@@ -99,13 +99,13 @@ def girvan_newan(adj_matrix, n = None):
         Q_history.append(Q)
 
 # Apply the Girvan-Newman algorithm to the adjacency matrix
-G_part, component, _ = girvan_newan(adj_matrix)
+# G_part, component, _ = girvan_newan(adj_matrix)
 
-# Create a graph from the adjacency matrix
-G = nx.from_numpy_array(adj_matrix)
+# # Create a graph from the adjacency matrix
+# G = nx.from_numpy_array(adj_matrix)
 
-# Plot the graph with community partitions
-plot_graph(G, G_part)
+# # Plot the graph with community partitions
+# plot_graph(G, G_part)
 
-# Print the best partition
-print("best_P: ", component)
+# # Print the best partition
+# print("best_P: ", component)
