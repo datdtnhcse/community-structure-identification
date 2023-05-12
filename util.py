@@ -165,6 +165,30 @@ def getComponentAdjMatrix(adjMatrix, max = 0):
             components.append(component)
 
     return components
+
+def generate_adjacency_matrix_from_multigraph(input_file):
+    # Read the input file
+    with open(input_file, "r") as file:
+        input_data = [line.strip().split()[:2] for line in file.readlines()]
+
+    # Extract the unique nodes from the input data
+    nodes = set()
+    for edge in input_data:
+        nodes.add(int(edge[0]))
+        nodes.add(int(edge[1]))
+
+    # Create an empty adjacency matrix
+    num_nodes = len(nodes)
+    adj_matrix = np.zeros((num_nodes, num_nodes), dtype=int)
+
+    # Populate the adjacency matrix
+    for edge in input_data:
+        node_a, node_b = int(edge[0]), int(edge[1])
+        adj_matrix[node_a - 1][node_b - 1] += 1
+        adj_matrix[node_b - 1][node_a - 1] += 1  # Consider the reverse direction as well
+
+    return adj_matrix
+
   
 if __name__ == "__main__":
     data = get_data(4)
@@ -178,7 +202,8 @@ if __name__ == "__main__":
     # print(eigenvalues)
 
 
-
+# adj_matrix_multi = generate_adjacency_matrix_from_multigraph("multigraph.txt")
+# print(adj_matrix_multi)
 # adj_matrix = getAdjMatrix("dataset/edge.txt",40)
 # print(adj_matrix)
 # print(adj_matrix.shape)

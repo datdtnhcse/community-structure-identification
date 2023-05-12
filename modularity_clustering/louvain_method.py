@@ -137,8 +137,9 @@ def run_second_phase(node_to_comm, adj_matrix, true_partition, true_comms):
         new_adj_matrix.append(row_vec)
     
     return np.array(new_adj_matrix), new_true_partition, true_comms
-        
-adj_matrix = getAdjMatrix("dataset/edge.txt",40)
+
+
+adj_matrix = generate_adjacency_matrix_from_multigraph("multigraph.txt")
         
 def louvain_algorithm(adj_matrix, n = None):
     """
@@ -156,7 +157,7 @@ def louvain_algorithm(adj_matrix, n = None):
     true_comms = {c: c for c in node_to_comm}
     
     M = modularity_matrix(adj_matrix)
-    
+
     def update_frame(frame, partition, comm_aliases, recalculate_Q):
         """
         Update the animation frame with the true node-to-community mapping and modularity value.
