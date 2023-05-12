@@ -1,5 +1,0 @@
-- survey some metric to adjust method: Modularity, NMI, ARI, Conductance, Coverage
-- apply in real data with first usecase: undirected graph (apply in dolphin, karate, ...)
-- survey some usecase about: directed graph, multiple graph (notice)
-- deep understanding in code, survey some visualization aspect
-- util (DAT)
