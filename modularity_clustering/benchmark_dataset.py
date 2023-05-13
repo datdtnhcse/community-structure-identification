@@ -18,10 +18,10 @@ from sklearn.decomposition import NMF
 import matplotlib.pyplot as plt
 
 #if use example data to get insight in result use
-adj_matrix = get_data(100)
+# adj_matrix = get_data(100)
 
 #benchmark for network-eletric
-# adj_matrix = getAdjMatrix('input.txt')
+adj_matrix = getAdjMatrix('input.txt')
 
 #uncomment to run input if use multigraph
 # adj_matrix = generate_adjacency_matrix_from_multigraph("multigraph.txt")
@@ -60,14 +60,13 @@ def elbow_num_component(adj_matrix):
     # plt.show()
     return n_components[elbow_index]
 
+num_com = elbow_num_component(adj_matrix)
+
 def method_to_measure(adj_matrix,method = 'louvain',n_component = None,name = None):
     G = nx.from_numpy_array(adj_matrix)
     communities = None
     true_partition = None
-    if n_component is None:
-        num_com = elbow_num_component(adj_matrix)
-        print(num_com)
-    else: num_com = n_component
+    num_com = n_component
     if method == 'louvain':
         print('method: louvain')
         communities = louvain_communities(G, seed = 123)
@@ -79,7 +78,7 @@ def method_to_measure(adj_matrix,method = 'louvain',n_component = None,name = No
         for partition in next(communities):
             lst_communities.append(partition)
         communities = lst_communities
-        G_part, true_partition, _ = girvan_newan(adj_matrix, len(communities))    
+        G_part, true_partition, _ = girvan_newan(adj_matrix)    
     if method == 'nmf_sgd':
         print('method: nmf_sgd')
         true_partition = nmf_util.algoNMF(adj_matrix,num_com,10000,'sgd')
@@ -119,8 +118,8 @@ def method_to_measure(adj_matrix,method = 'louvain',n_component = None,name = No
     
 res = pd.DataFrame({})
 res = pd.concat([res,method_to_measure(adj_matrix,'louvain')])
-res = pd.concat([res,method_to_measure(adj_matrix,'nmf_sgd')])
-res = pd.concat([res,method_to_measure(adj_matrix,'nmf_mu')])
+res = pd.concat([res,method_to_measure(adj_matrix,'nmf_sgd',n_component = num_com)])
+res = pd.concat([res,method_to_measure(adj_matrix,'nmf_mu',n_component = num_com)])
 res = pd.concat([res,method_to_measure(adj_matrix,'girvan_newan')])
 # res = pd.concat([res,method_to_measure(adj_matrix,'nmf_als',8)])
 print(res)
