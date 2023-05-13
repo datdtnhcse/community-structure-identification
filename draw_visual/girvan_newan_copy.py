@@ -72,7 +72,9 @@ def girvan_newan(adj_matrix, n = None):
     P_history = [best_P]
     Q_history = [best_Q]
     
+    i = 200
     while True:
+        print("...")
         last_P = P_history[-1]
         
         # Check termination conditions
@@ -87,6 +89,8 @@ def girvan_newan(adj_matrix, n = None):
         # Get the new partition and calculate modularity
         P = getComponent(G)
         Q = modularity(M, P)
+
+        print("ok")
         
         # Update the best partition and modularity if necessary
         if Q >= best_Q:

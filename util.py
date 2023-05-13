@@ -166,10 +166,17 @@ def getComponentAdjMatrix(adjMatrix, max = 0):
 
     return components
 
+import csv
+
+
 def generate_adjacency_matrix_from_multigraph(input_file):
     # Read the input file
     with open(input_file, "r") as file:
         input_data = [line.strip().split()[:2] for line in file.readlines()]
+
+    with open('input.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(input_data)
 
     # Extract the unique nodes from the input data
     nodes = set()
@@ -186,6 +193,7 @@ def generate_adjacency_matrix_from_multigraph(input_file):
         node_a, node_b = int(edge[0]), int(edge[1])
         adj_matrix[node_a - 1][node_b - 1] += 1
         adj_matrix[node_b - 1][node_a - 1] += 1  # Consider the reverse direction as well
+
 
     return adj_matrix
 
